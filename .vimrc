@@ -30,9 +30,9 @@ set backspace=indent,eol,start
 "Config extend key to let the cursor move to next line or previous line when
 "the cursor is at the start or the end of a line.
 set whichwrap+=<,>,h,l
-display the row number
+"display the row number
 set number
-"The number of the context row previous and behind the cursor
+""The number of the context row previous and behind the cursor
 set scrolloff=6
 "The Configuration about the indent (tab and space)
 set tabstop=4
@@ -114,7 +114,7 @@ set rtp+=$VIMFILEFLODER/bundle/Vundle.vim
 call vundle#begin()
 let g:bundle_dir = $VIMFILEFLODER.'/bundle'
 "let Vundle manage Vundle
-"required! 
+"required!
 Plugin 'gmarik/Vundle.vim'
 
 "Color
@@ -125,7 +125,7 @@ Plugin 'altercation/vim-colors-solarized'
 "Syntax
 
 Plugin 'xml.vim'
-Plugin 'Markdown'
+"Plugin 'Markdown'
 
 " {{{ asins/template.vim 文件模板
 Plugin 'asins/template.vim'
@@ -180,7 +180,13 @@ autocmd BufWinEnter \[Buf\ List\] setl nonumber
 " }}}
 
 " {{{ The-NERD-tree 文件管理器
-Plugin 'The-NERD-tree'
+" Plugin 'The-NERD-tree'
+Plugin 'scrooloose/nerdtree'
+Plugin 'Xuyuanp/nerdtree-git-plugin'
+Plugin 'jistr/vim-nerdtree-tabs'
+map <Leader>n <plug>NERDTreeTabsToggle<CR>
+let g:nerdtree_tabs_open_on_console_startup=1
+let g:nerdtree_tabs_smart_startup_focus=1
 " 让Tree把自己给装饰得多姿多彩漂亮点
 let NERDChristmasTree=1
 " 控制当光标移动超过一定距离时，是否自动将焦点调整到屏中心
@@ -199,7 +205,7 @@ let NERDTreeShowLineNumbers=0
 let NERDTreeWinPos='left'
 " 窗口宽度
 let NERDTreeWinSize=31
-nnoremap <Leader>tt :NERDTree<CR>
+nnoremap <Leader>tt :NERDTreeToggle<CR>
 "autocmd VimEnter * NERDTree
 "autocmd BufEnter * NERDTreeMirror
 "autocmd VimEnter * wincmd w
@@ -236,6 +242,8 @@ else
 endif
 let g:tagbar_autofocus = 0
 let g:tarbar_width = 30
+"let g:tagbar_left = 1
+"let g:tagbar_vertical = 1
 nmap <leader>tl :TagbarToggle<CR>
 " }}}
 
@@ -378,8 +386,7 @@ if has('win32')
 endif
 set fileencodings=ucs-bom,utf-8,gbk,cp936,cp950,latin1
 set ambiwidth=double
-set guifont=Source_Code_Pro:h13
-
+set guifont=Source\ Code\ Pro\ 13
 "console
 if has("win32")
 	language messages zh_cn.utf-8
@@ -622,6 +629,13 @@ Plugin 'TagHighLight'
 "autocmd VimEnter * nested :call tagbar#autoopen(1)
 "this command which is commented has conflict with the TagHighLight plugin
 "autocmd FileType * nested :call tagbar#autoopen(0)
+" Start tagbar in when vim startup no matter what.
+if has('gui_running')
+	autocmd VimEnter * nested :TagbarOpen
+endif
+" Tagbar open with supported files.
+autocmd VimEnter * nested :call tagbar#autoopen(1)
+" Also open tagbar in a existing vim.
 autocmd BufEnter * nested :call tagbar#autoopen(0)
 
 
@@ -649,10 +663,7 @@ autocmd BufEnter * nested :call tagbar#autoopen(0)
 
 "Eclimd configuration
 "let g:EclimValidateSortResults = 'severity'
-"Bundle "The-NERD-tree"
-Plugin 'jistr/vim-nerdtree-tabs'
-map <Leader>n <plug>NERDTreeTabsToggle<CR>
-let g:nerdtree_tabs_open_on_console_startup=1
+
 
 " }}}
 
@@ -701,7 +712,7 @@ autocmd FileType python let g:pymode = 1
 "autocmd FileType xml set omnifunc=xmlcomplete#CompleteTags
 "autocmd FileType java set omnifunc=javacomplete#Complete
 "if has("autocmd") && exists("+omnifunc")
-     "autocmd Filetype *
+	 "autocmd Filetype *
    "\ if &omnifunc == "" |
    "\   setlocal omnifunc=syntaxcomplete#Complete |
    "\ endif
@@ -711,7 +722,7 @@ autocmd FileType python let g:pymode = 1
 ""let g:rubycomplete_rails = 1
 
 "if exists('+shellslash')
-    "let shellslash = 1
+	"let shellslash = 1
 "endif
 
 " 设定配色方案"{{{
@@ -725,7 +736,7 @@ endif
 "let g:solarized_termcolors=16
 "colorscheme solarized
 if has('gui_running')
-	colorscheme solarized
+	colorscheme molokai
 else
 	colorscheme elflord
 endif
@@ -740,4 +751,34 @@ else
 		silent !wmctrl -r :ACTIVE: -b add,maximized_vert,maximized_horz
 	endfunction
 endif
+
+if has("gui_running")
+  " GUI is running or is about to start.
+  " Maximize gvim window.
+  set lines=999 columns=999
+endif
+
+
 "}}}
+
+" Git Gutter Plugin {{{
+Plugin 'airblade/vim-gitgutter'
+" }}}
+
+" Markdown Preview {{{
+Plugin 'JamshedVesuna/vim-markdown-preview'
+let vim_markdown_preview_browser='Google Chrome'
+"let vim_markdown_preview_temp_file=1
+let vim_markdown_preview_toggle=2
+" }}}
+
+" Markdown Syntax {{{
+Plugin 'godlygeek/tabular'
+Plugin 'plasticboy/vim-markdown'
+" }}}
+
+
+" Status Bar {{{
+Plugin 'bling/vim-airline'
+" }}}
+
