@@ -106,26 +106,28 @@ let helptags=$VIMFILEFLODER."/doc"
 set helplang=cn
 "}}}
 
-"{{{ plugin for vundle
+"plugin for vundle {{{
 "more script see: http://vim-scripts.org/vim/scripts.html
 set nocompatible
 filetype off
 set rtp+=$VIMFILEFLODER/bundle/Vundle.vim
 call vundle#begin()
 let g:bundle_dir = $VIMFILEFLODER.'/bundle'
-"let Vundle manage Vundle
+"let Vundle manage Vundle {{{
 "required!
 Plugin 'gmarik/Vundle.vim'
+" }}}
 
-"Color
+"Color {{{
 Plugin 'molokai'
 Plugin 'altercation/vim-colors-solarized'
+" }}}
 
 
-"Syntax
-
+"Syntax {{{
 Plugin 'xml.vim'
 "Plugin 'Markdown'
+" }}}
 
 " {{{ asins/template.vim 文件模板
 Plugin 'asins/template.vim'
@@ -185,7 +187,6 @@ Plugin 'scrooloose/nerdtree'
 Plugin 'Xuyuanp/nerdtree-git-plugin'
 Plugin 'jistr/vim-nerdtree-tabs'
 map <Leader>n <plug>NERDTreeTabsToggle<CR>
-let g:nerdtree_tabs_open_on_console_startup=1
 let g:nerdtree_tabs_smart_startup_focus=1
 " 让Tree把自己给装饰得多姿多彩漂亮点
 let NERDChristmasTree=1
@@ -323,11 +324,97 @@ hi MarkWord5  ctermbg=Magenta  ctermfg=Black  guibg=#FFB3FF    guifg=Black
 hi MarkWord6  ctermbg=Blue     ctermfg=Black  guibg=#9999FF    guifg=Black
 "}}}
 
-"Plugin You Complete me, code auto complete.
+"Plugin You Complete me, code auto complete. {{{
 Plugin 'Valloric/YouCompleteMe'
 let g:ycm_global_ycm_extra_conf = '~/.vim/bundle/YouCompleteMe/cpp/ycm/.ycm_extra_conf.py'
 let g:ycm_global_ycm_extra_conf = '~/.vim/.ycm_extra_conf.py'
+let g:ycm_autoclose_preview_window_after_completion = 1
+let g:ycm_add_preview_to_completeopt = 1
+set completeopt-=preview
 "}}}
+
+" Git Gutter Plugin {{{
+Plugin 'airblade/vim-gitgutter'
+" }}}
+
+" Markdown Preview {{{
+Plugin 'JamshedVesuna/vim-markdown-preview'
+let vim_markdown_preview_browser='Google Chrome'
+"let vim_markdown_preview_temp_file=1
+let vim_markdown_preview_toggle=2
+" }}}
+
+" Markdown Syntax {{{
+Plugin 'godlygeek/tabular'
+Plugin 'plasticboy/vim-markdown'
+" }}}
+
+" Status Bar {{{
+Plugin 'bling/vim-airline'
+" }}}
+
+"" Pydoc {{{
+"Plugin 'fs111/pydoc.vim'
+"" }}}
+
+" Jedi for Python Doc {{{
+Plugin 'davidhalter/jedi-vim'
+" }}}
+
+"" Python Mode {{{
+"Plugin 'klen/python-mode'
+"autocmd FileType python let g:pymode = 1
+"" Disable pylint checking every save
+""let g:pymode_lint_write = 0
+"" Disable code completion support, use youcompleteme instead.
+"let g:pymode_rope_completion = 0
+"" Set key 'R' for run python code
+""let g:pymode_run_key = 'R'
+"" }}}
+
+"snipMate plugin {{{
+"Install dependencies:
+Plugin 'MarcWeber/vim-addon-mw-utils'
+Plugin 'tomtom/tlib_vim'
+Plugin 'honza/vim-snippets'
+
+"Install:
+Plugin 'garbas/vim-snipmate'
+imap <C-E> <Plug>snipMateNextOrTrigger
+smap <C-E> <Plug>snipMateNextOrTrigger
+let g:snips_email = 'myme5261314@gmail.com'
+let g:snips_author = 'Peng Liu'
+let g:snips_github = 'https://github.com/myme5261314/'
+"let g:snips_trigger_key = '<C-E>'
+" }}}
+
+"排名前100的配色方案 {{{
+Plugin 'Colour-Sampler-Pack'
+" }}}
+
+"语法高亮 {{{
+Plugin 'TagHighLight'
+" }}}
+
+"StartUp with Tagbar {{{
+if has('gui_running')
+	autocmd VimEnter * nested :TagbarOpen
+endif
+" Tagbar open with supported files.
+autocmd VimEnter * nested :call tagbar#autoopen(1)
+" Also open tagbar in a existing vim.
+autocmd BufEnter * nested :call tagbar#autoopen(0)
+" }}}
+
+"Eclimd configuration {{{
+"let g:EclimValidateSortResults = 'severity'
+"取消eclim中用户自定义补全时多出的窗口
+"set completeopt-=preview
+" }}}
+
+" Spell Check {{{
+Plugin 'Engspchk'
+" }}}
 
 "All of your Plugins must be added before the following line"{{{
 call vundle#end()            "required
@@ -343,7 +430,7 @@ filetype plugin indent on    "required
 
 "see :h vundle for more details or wiki for FAQ
 "Put your non-Plugin stuff after this line"}}}
-
+" }}}
 
 " Alt-W切换自动换行"{{{
 noremap <a-w> :exe &wrap==1 ? 'set nowrap' : 'set wrap'<cr>
@@ -403,6 +490,7 @@ nnoremap <c-l> <c-w>l
 nnoremap <c-j> <c-w>j
 nnoremap <c-k> <c-w>k
 "}}}
+
 " Buffers/Tab操作快捷方式!"{{{
 nnoremap <s-h> :bprevious<cr>
 nnoremap <s-l> :bnext<cr>
@@ -410,12 +498,14 @@ nnoremap <s-j> :tabnext<cr>
 nnoremap <s-k> :tabprev<cr>
 "nnoremap F :tabe %
 "}}}
+
 " 插入模式下上下左右移动光标"{{{
 inoremap <a-h> <left>
 inoremap <a-l> <right>
 inoremap <a-j> <c-o>gj
 inoremap <a-k> <c-o>gk
 "}}}
+
 "{{{ Folding 折叠
 "折叠相关的快捷键
 "zR 打开所有的折叠
@@ -468,69 +558,6 @@ vnoremap <silent> <leader>f y/<c-r>=escape(@", "\\/.*$^~[]")<cr><cr>
 vnoremap <silent> <leader>F y?<c-r>=escape(@", "\\/.*$^~[]")<cr><cr>
 " }}}
 
-" {{{ Win平台下窗口全屏组件 gvimfullscreen.dll
-" Ctrl + Enter 全屏切换
-" Shift + t 降低窗口透明度
-" Shift + y 加大窗口透明度
-" Shift + r 切换Vim是否总在最前面显示
-if has('gui_running') && has('gui_win32') && has('libcall')
-	"self-define 换用Vimtweak.dll来实现透明
-	let g:MyVimLib =$VIMFILEFLODER.'/vimtweak.dll'
-	let g:MyFullScreenState = 1
-	"let g:MyVimLib = 'gvimfullscreen.dll'
-	function! ToggleFullScreen()
-		"let s:IsFullScreen = libcallnr("gvimfullscreen.dll", 'ToggleFullScreen', 0)
-		"let s:IsFullScreen = libcallnr("gvimfullscreen.dll", 'ToggleFullScreen', 27 + 29*256 + 30*256*256)
-		"if g:MyFullScreenState == 0
-			"let g:MyFullScreenState = 1
-		"else
-			"let g:MyFullScreenState = 0
-		"endif
-		let g:MyFullScreenState = 1 - g:MyFullScreenState
-		call libcallnr(g:MyVimLib, "EnableMaximize", g:MyFullScreenState)
-		"call libcall(g:MyVimLib, 'ToggleFullScreen', 27 + 29*256 + 30*256*256)
-	endfunction
-
-	let g:VimAlpha = 245
-	function! SetAlpha(alpha)
-		let g:VimAlpha = g:VimAlpha + a:alpha
-		if g:VimAlpha < 180
-			let g:VimAlpha = 180
-		endif
-		if g:VimAlpha > 255
-			let g:VimAlpha = 255
-		endif
-		call libcall(g:MyVimLib, 'SetAlpha', g:VimAlpha)
-	endfunction
-
-	let g:VimTopMost = 0
-	function! SwitchVimTopMostMode()
-		if g:VimTopMost == 0
-			let g:VimTopMost = 1
-		else
-			let g:VimTopMost = 0
-		endif
-		call libcall(g:MyVimLib, 'EnableTopMost', g:VimTopMost)
-	endfunction
-	"映射 Ctrl+Enter 切换全屏vim
-	map <c-cr> <esc>:call ToggleFullScreen()<cr>
-	"切换Vim是否在最前面显示
-	nmap <s-r> <esc>:call SwitchVimTopMostMode()<cr>
-	"增加Vim窗体的不透明度
-	nmap <s-t> <esc>:call SetAlpha(10)<cr>
-	"增加Vim窗体的透明度
-	nmap <s-y> <esc>:call SetAlpha(-10)<cr>
-	"Vim启动的时候自动调用InitVim 以去除Vim的白色边框
-	"由于安装了Eclimd，在Eclipse中启动gvim时不能运行这段透明代码。
-	if !exists('g:vimplugin_running') "!eclim#EclimAvailable()
-		"autocmd GUIEnter * call libcallnr(g:MyVimLib, 'InitVim', 0)
-		" 默认设置透明
-		autocmd GUIEnter * call libcallnr(g:MyVimLib, 'EnableMaximize', g:MyFullScreenState)
-		autocmd GUIEnter * call libcallnr(g:MyVimLib, 'SetAlpha', g:VimAlpha)
-	endif
-endif
-" }}}
-
 " {{{ 回车时前字符为{时自动换行补全
 function! <SID>OpenSpecial(ochar,cchar)
 	let line = getline('.')
@@ -562,18 +589,9 @@ nmap <silent> <Leader>dns :!ipconfig /flushdns<CR><space>
 "autocmd! bufwritepost hosts call FlushDNS()
 " }}}
 
-
 " {{{ self-define configuration
 
-"self-define Bundle vim
-"Bundle "calendar.vim"
 
-" Vimwiki config
-Plugin 'vimwiki'
-Plugin 'vimcn/vimwiki.vim.cnx'
-Plugin 'calendar.vim--Matsumoto'
-" calendar
-map <F12> :Calendar<cr>
 " 打开语法高亮
 syntax enable
 syntax on
@@ -583,147 +601,16 @@ filetype indent on
 filetype plugin on
 filetype plugin indent on
 
-" ######### VimWiki 写作助手 ######## "
-
-" 使用鼠标映射
-let g:vimwiki_use_mouse = 1
-
-" 不要讲驼峰词组作为 Wiki 词条
-let g:vimwiki_camel_case = 0
-
-let g:vimwiki_list = [{
-\ 'path': 'D:/Blog/wiki',
-\ 'path_html' : 'D:/Blog/html/',
-\ 'template_path' : 'D:/Blog/html/template/',
-\ 'template_default': 'default',
-\ 'template_ext': '.html',
-\ 'auto_export' : 1
-\}]
-let g:vimwiki_valid_html_tags = 'b,i,s,u,sub,sup,kbd,br,hr,div,del,code,h1,h2,h3,h4,h5,h6,!--'
-"let g:vimwiki_file_exts = 'jpg,pdf,txt,doc,rtf,xls,php,zip,rar,7z,html,gz'
-
-
-"snipMate plugin
-"Install dependencies:
-Plugin 'MarcWeber/vim-addon-mw-utils'
-Plugin 'tomtom/tlib_vim'
-Plugin 'honza/vim-snippets'
-
-"Install:
-Plugin 'garbas/vim-snipmate'
-imap <C-E> <Plug>snipMateNextOrTrigger
-smap <C-E> <Plug>snipMateNextOrTrigger
-let g:snips_email = 'myme5261314@gmail.com'
-let g:snips_author = 'Peng Liu'
-let g:snips_github = 'https://github.com/myme5261314/'
-"let g:snips_trigger_key = '<C-E>'
-
-"取消eclim中用户自定义补全时多出的窗口
-set completeopt-=preview
-"排名前100的配色方案
-Plugin 'Colour-Sampler-Pack'
-"语法高亮
-"Bundle "https://bitbucket.org/abudden/taghighlight"
-Plugin 'TagHighLight'
-"StartUp with Tagbar
-"autocmd VimEnter * nested :call tagbar#autoopen(1)
-"this command which is commented has conflict with the TagHighLight plugin
-"autocmd FileType * nested :call tagbar#autoopen(0)
-" Start tagbar in when vim startup no matter what.
-if has('gui_running')
-	autocmd VimEnter * nested :TagbarOpen
-endif
-" Tagbar open with supported files.
-autocmd VimEnter * nested :call tagbar#autoopen(1)
-" Also open tagbar in a existing vim.
-autocmd BufEnter * nested :call tagbar#autoopen(0)
-
-
-"Bundle "winmanager--Fox"
-"""""""""""""""""""""""""""""""
-"" winManager setting (desprecated)
-"""""""""""""""""""""""""""""""
-"设置界面分割
-"Bundle "winmanager"
-"let g:winManagerWindowLayout = "BufExplorer,FileExplorer|TagList"
-"let g:winManagerWindowLayout = "TagList|FileExplorer,BufExplorer"
-"let g:winManagerWindowLayout = "FileExplorer,BufExplorer|TagList"
-"let g:winManagerWindowLayout = "TagBar|NERDTree"
-"let g:NERDTree_title = "[NERD Tree]"
-"function! NERDTree_Start()
-	"exec 'NERDTree'
-"endfunction
-"function! NERDTree_IsValid()
-	"return 1
-"endfunction
-"设置winmanager的宽度，默认为25
-"let g:winManagerWidth = 30
-"定义打开关闭winmanager按键
-"nmap <silent> <F8> :WMToggle<cr>
-
-"Eclimd configuration
-"let g:EclimValidateSortResults = 'severity'
-
-
-" }}}
-
 " {{{ Some Configuration in order to get vim to Python IDE
 
-" Something fun
-Plugin 'uguu-org/vim-matrix-screensaver'
-" Spell Check
-Plugin 'Engspchk'
 " Doxygen
 "Bundle 'doxygen-support.vim'
 
-" Pydict"{{{
-"Plugin 'rkulla/pydiction'
-"let g:pydiction_location = $VIMFILEFLODER.'/bundle/pydiction/complete-dict'
-"let g:pydiction_menu_height = 20
-
-"au BufNewFile,BufRead *.py,*.pyw setf python"}}}
-
-" Python Indent indent/python.vim
-"Bundle 'python.vim--Vasiliev'
-"Bundle 'gg/python.vim'
-"Bundle 'python.vim'
 " Python Folding
 autocmd Filetype python set foldmethod=indent
 " Python Debugging
 "Bundle 'VimPdb'
-" Python Mode
-Plugin 'klen/python-mode'
-autocmd FileType python let g:pymode = 1
-" Disable pylint checking every save
-"let g:pymode_lint_write = 0
-
-" Set key 'R' for run python code
-"let g:pymode_run_key = 'R'
 " }}}
-
-
-
-
-"autocmd FileType ruby,eruby set omnifunc=rubycomplete#Complete
-"autocmd FileType python set omnifunc=pythoncomplete#Complete
-"autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
-"autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
-"autocmd FileType css set omnifunc=csscomplete#CompleteCSS
-"autocmd FileType xml set omnifunc=xmlcomplete#CompleteTags
-"autocmd FileType java set omnifunc=javacomplete#Complete
-"if has("autocmd") && exists("+omnifunc")
-	 "autocmd Filetype *
-   "\ if &omnifunc == "" |
-   "\   setlocal omnifunc=syntaxcomplete#Complete |
-   "\ endif
-"endif
-"let g:rubycomplete_buffer_loading = 1
-"let g:rubycomplete_classes_in_global = 1
-""let g:rubycomplete_rails = 1
-
-"if exists('+shellslash')
-	"let shellslash = 1
-"endif
 
 " 设定配色方案"{{{
 "syntax enable
@@ -761,24 +648,4 @@ endif
 
 "}}}
 
-" Git Gutter Plugin {{{
-Plugin 'airblade/vim-gitgutter'
 " }}}
-
-" Markdown Preview {{{
-Plugin 'JamshedVesuna/vim-markdown-preview'
-let vim_markdown_preview_browser='Google Chrome'
-"let vim_markdown_preview_temp_file=1
-let vim_markdown_preview_toggle=2
-" }}}
-
-" Markdown Syntax {{{
-Plugin 'godlygeek/tabular'
-Plugin 'plasticboy/vim-markdown'
-" }}}
-
-
-" Status Bar {{{
-Plugin 'bling/vim-airline'
-" }}}
-
