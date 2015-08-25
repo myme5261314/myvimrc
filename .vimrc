@@ -1,4 +1,3 @@
-
 " Set leader as ,
 let mapleader = ','
 let g:mapleader = ','
@@ -7,6 +6,7 @@ let maplocalleader = ','
 
 "{{{ Global Settings
 
+" Python Path
 "Close vi compatible mode
 set nocompatible
 "The 5 lines below solves the error problem with the gVim menu and right
@@ -78,7 +78,7 @@ set showmatch
 "解决自动换行格式下, 如高度在折行之后超过窗口高度结果这一行看不到的问题
 set display=lastline
 "设置在状态行显示的信息
-set statusline=\ %<%F[%1*%M%*%n%R%H]%=\ %y\ %0(%{&fileformat}\ [%{(&fenc==\"\"?&enc:&fenc).(&bomb?\",BOM\":\"\")}]\ \(%P\):%c:%l/%L%)
+"set statusline=\ %<%F[%1*%M%*%n%R%H]%=\ %y\ %0(%{&fileformat}\ [%{(&fenc==\"\"?&enc:&fenc).(&bomb?\",BOM\":\"\")}]\ \(%P\):%c:%l/%L%)
 "显示Tab符
 set list
 set listchars=tab:\|\ ,trail:.,extends:>,precedes:<
@@ -88,17 +88,17 @@ set sessionoptions=blank,buffers,curdir,folds,help,options,tabpages,winsize,slas
 
 "the config about the vimrc
 if has("unix")
-	set fileformats=unix,dos,mac
-	nmap <leader>e :tabnew $HOME/.vimrc<cr>
-	let $VIMFILESNAME = '.vimrc'
-	let $VIMFILEFLODER = $HOME.'/.vim'
-	let $VIMFILES = $HOME."/".$VIMFILESNAME
+    set fileformats=unix,dos,mac
+    nmap <leader>e :tabnew $HOME/.vimrc<cr>
+    let $VIMFILESNAME = '.vimrc'
+    let $VIMFILEFLODER = $HOME.'/.vim'
+    let $VIMFILES = $HOME."/".$VIMFILESNAME
 else
-	set fileformats=dos,unix,mac
-	nmap <leader>e :tabnew $HOME/_vimrc<cr>
-	let $VIMFILESNAME = '_vimrc'
-	let $VIMFILEFLODER = $HOME.'/vimfiles'
-	let $VIMFILES = $HOME."/".$VIMFILESNAME
+    set fileformats=dos,unix,mac
+    nmap <leader>e :tabnew $HOME/_vimrc<cr>
+    let $VIMFILESNAME = '_vimrc'
+    let $VIMFILEFLODER = $HOME.'/vimfiles'
+    let $VIMFILES = $HOME."/".$VIMFILESNAME
 endif
 
 "设定doc文档目录
@@ -123,26 +123,25 @@ Plugin 'molokai'
 Plugin 'altercation/vim-colors-solarized'
 " }}}
 
-
 "Syntax {{{
 Plugin 'xml.vim'
 "Plugin 'Markdown'
 " }}}
 
-" {{{ asins/template.vim 文件模板
-Plugin 'asins/template.vim'
-let g:template_author = "Peng Liu"
-" }}}
+"" {{{ asins/template.vim 文件模板
+"Plugin 'asins/template.vim'
+"let g:template_author = "Peng Liu"
+"" }}}
 
 "{{{ tpope/vim-fugitive Git命令集合
 Plugin 'tpope/vim-fugitive'
 if executable('git')
-	nnoremap <silent> <leader>gs :Gstatus<CR>
-	nnoremap <silent> <leader>gd :Gdiff<CR>
-	nnoremap <silent> <leader>gc :Gcommit<CR>
-	nnoremap <silent> <leader>gb :Gblame<CR>
-	nnoremap <silent> <leader>gl :Glog<CR>
-	nnoremap <silent> <leader>gp :Git push<CR>
+    nnoremap <silent> <leader>gs :Gstatus<CR>
+    nnoremap <silent> <leader>gd :Gdiff<CR>
+    nnoremap <silent> <leader>gc :Gcommit<CR>
+    nnoremap <silent> <leader>gb :Gblame<CR>
+    nnoremap <silent> <leader>gl :Glog<CR>
+    nnoremap <silent> <leader>gp :Git push<CR>
 endif
 "}}}
 
@@ -179,6 +178,11 @@ let g:bufExplorerSplitVertical=1    " 垂直分割
 let g:bufExplorerSplitVertSize = 30 " Split width
 let g:bufExplorerUseCurrentWindow=1 " 在新窗口中打开
 autocmd BufWinEnter \[Buf\ List\] setl nonumber
+" }}}
+
+" GUndo Plugin {{{
+Plugin 'sjl/gundo.vim'
+nnoremap <F5> :GundoToggle<CR>
 " }}}
 
 " {{{ The-NERD-tree 文件管理器
@@ -237,15 +241,21 @@ nmap <leader>f :MRU<cr>
 " {{{ majutsushi/tagbar 代码导航
 Plugin 'majutsushi/tagbar'
 if has("unix")
-	let g:tagbar_ctags_bin = '/usr/bin/ctags'
+    let g:tagbar_ctags_bin = '/usr/bin/ctags'
 else
-	let g:tagbar_ctags_bin = $VIMFILEFLODER.'/ctags.exe'
+    let g:tagbar_ctags_bin = $VIMFILEFLODER.'/ctags.exe'
 endif
 let g:tagbar_autofocus = 0
 let g:tarbar_width = 30
-"let g:tagbar_left = 1
-"let g:tagbar_vertical = 1
 nmap <leader>tl :TagbarToggle<CR>
+"StartUp with Tagbar
+if has('gui_running')
+    autocmd VimEnter * nested :TagbarOpen
+endif
+" Tagbar open with supported files.
+autocmd VimEnter * nested :call tagbar#autoopen(1)
+" Also open tagbar in a existing vim.
+autocmd BufEnter * nested :call tagbar#autoopen(0)
 " }}}
 
 " {{{ CmdlineComplete 命令行模式下自动补全
@@ -324,32 +334,55 @@ hi MarkWord5  ctermbg=Magenta  ctermfg=Black  guibg=#FFB3FF    guifg=Black
 hi MarkWord6  ctermbg=Blue     ctermfg=Black  guibg=#9999FF    guifg=Black
 "}}}
 
-"Plugin You Complete me, code auto complete. {{{
-Plugin 'Valloric/YouCompleteMe'
-let g:ycm_global_ycm_extra_conf = '~/.vim/bundle/YouCompleteMe/cpp/ycm/.ycm_extra_conf.py'
-let g:ycm_global_ycm_extra_conf = '~/.vim/.ycm_extra_conf.py'
-let g:ycm_autoclose_preview_window_after_completion = 1
-let g:ycm_add_preview_to_completeopt = 1
-set completeopt-=preview
-"}}}
-
 " Git Gutter Plugin {{{
 Plugin 'airblade/vim-gitgutter'
+"Plugin 'mhinz/vim-signify'
+"let g:signify_vcs_list = [ 'git', 'hg' ]
 " }}}
 
-" Markdown Preview {{{
+"" Syntax checking Plugin {{{
+"Plugin 'scrooloose/syntastic'
+"set statusline+=%#warningmsg#
+"set statusline+=%{SyntasticStatuslineFlag()}
+"set statusline+=%*
+
+"let g:syntastic_always_populate_loc_list = 1
+"let g:syntastic_auto_loc_list = 1
+"let g:syntastic_check_on_open = 1
+"let g:syntastic_check_on_wq = 0
+"let g:syntastic_python_python_exec = '$HOME/anaconda/bin/python'
+"" }}}
+
+" Auto Fix Python PEP8 Errors {{{
+Plugin 'tell-k/vim-autopep8'
+let g:autopep8_disable_show_diff=1
+" }}}
+
+" UltiSnips {{{
+" Track the engine.
+Plugin 'SirVer/ultisnips'
+" Snippets are separated from the engine. Add this if you want them:
+Plugin 'honza/vim-snippets'
+
+" Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
+let g:UltiSnipsExpandTrigger="<c-e>"
+let g:UltiSnipsJumpForwardTrigger="<c-b>"
+let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+" }}}
+
+" Markdown Preview Plugin {{{
 Plugin 'JamshedVesuna/vim-markdown-preview'
 let vim_markdown_preview_browser='Google Chrome'
 "let vim_markdown_preview_temp_file=1
 let vim_markdown_preview_toggle=2
 " }}}
 
-" Markdown Syntax {{{
+" Markdown Syntax Plugin {{{
 Plugin 'godlygeek/tabular'
 Plugin 'plasticboy/vim-markdown'
 " }}}
 
-" Status Bar {{{
+" Status Bar Plugin {{{
 Plugin 'bling/vim-airline'
 " }}}
 
@@ -359,51 +392,73 @@ Plugin 'bling/vim-airline'
 
 " Jedi for Python Doc {{{
 Plugin 'davidhalter/jedi-vim'
+let g:jedi#auto_vim_configuration = 0
+let g:jedi#popup_on_dot = 0
+let g:jedi#popup_select_first = 0
+let g:jedi#completions_enabled = 0
+let g:jedi#completions_command = ""
+let g:jedi#show_call_signatures = "1"
+
+let g:jedi#goto_assignments_command = "<leader>pa"
+let g:jedi#goto_definitions_command = "<leader>pd"
+let g:jedi#documentation_command = "<leader>pk"
+let g:jedi#usages_command = "<leader>pu"
+let g:jedi#rename_command = "<leader>pr"
 " }}}
 
-"" Python Mode {{{
-"Plugin 'klen/python-mode'
-"autocmd FileType python let g:pymode = 1
-"" Disable pylint checking every save
-""let g:pymode_lint_write = 0
-"" Disable code completion support, use youcompleteme instead.
-"let g:pymode_rope_completion = 0
-"" Set key 'R' for run python code
-""let g:pymode_run_key = 'R'
+" Python Mode {{{
+Plugin 'klen/python-mode'
+autocmd FileType python let g:pymode = 1
+" Disable pylint checking every save
+"let g:pymodeLlint_write = 0
+" Disable code completion support, use youcompleteme instead.
+let g:pymode_rope_completion = 0
+" Set key 'R' for run python code
+"let g:pymode_run_key = 'R'
+"let g:pymode_paths = [$HOME.'/anaconda/lib/python2.7/site-packages/']
+" }}}
+
+
+""snipMate plugin {{{
+""Install dependencies:
+"Plugin 'MarcWeber/vim-addon-mw-utils'
+"Plugin 'tomtom/tlib_vim'
+"Plugin 'honza/vim-snippets'
+" }}}
+
+"" vim-snipmate {{{
+"Plugin 'garbas/vim-snipmate'
+"imap <C-E> <Plug>snipMateNextOrTrigger
+"smap <C-E> <Plug>snipMateNextOrTrigger
+"let g:snips_email = 'myme5261314@gmail.com'
+"let g:snips_author = 'Peng Liu'
+"let g:snips_github = 'https://github.com/myme5261314/'
+""let g:snips_trigger_key = '<C-E>'
 "" }}}
 
-"snipMate plugin {{{
-"Install dependencies:
-Plugin 'MarcWeber/vim-addon-mw-utils'
-Plugin 'tomtom/tlib_vim'
-Plugin 'honza/vim-snippets'
+"Plugin You Complete me, code auto complete. {{{
+Plugin 'Valloric/YouCompleteMe'
+let g:ycm_global_ycm_extra_conf = '~/.vim/bundle/YouCompleteMe/cpp/ycm/.ycm_extra_conf.py'
+"let g:ycm_global_ycm_extra_conf = '~/.vim/.ycm_extra_conf.py'
+let g:ycm_autoclose_preview_window_after_completion = 1
+let g:ycm_add_preview_to_completeopt = 1
+set completeopt-=preview
+"}}}
 
-"Install:
-Plugin 'garbas/vim-snipmate'
-imap <C-E> <Plug>snipMateNextOrTrigger
-smap <C-E> <Plug>snipMateNextOrTrigger
-let g:snips_email = 'myme5261314@gmail.com'
-let g:snips_author = 'Peng Liu'
-let g:snips_github = 'https://github.com/myme5261314/'
-"let g:snips_trigger_key = '<C-E>'
+" color_coded {{{
+Plugin 'jeaye/color_coded'
+" }}}
+
+" YCM-Generator {{{
+Plugin 'rdnetto/YCM-Generator'
 " }}}
 
 "排名前100的配色方案 {{{
 Plugin 'Colour-Sampler-Pack'
 " }}}
 
-"语法高亮 {{{
+"语法高亮 Plugin {{{
 Plugin 'TagHighLight'
-" }}}
-
-"StartUp with Tagbar {{{
-if has('gui_running')
-	autocmd VimEnter * nested :TagbarOpen
-endif
-" Tagbar open with supported files.
-autocmd VimEnter * nested :call tagbar#autoopen(1)
-" Also open tagbar in a existing vim.
-autocmd BufEnter * nested :call tagbar#autoopen(0)
 " }}}
 
 "Eclimd configuration {{{
@@ -412,8 +467,33 @@ autocmd BufEnter * nested :call tagbar#autoopen(0)
 "set completeopt-=preview
 " }}}
 
-" Spell Check {{{
+" Spell Check Plugin {{{
 Plugin 'Engspchk'
+" }}}
+
+" delimitMate Plugin {{{
+Plugin 'Raimondi/delimitMate'
+" }}}
+
+" easymotion Plugin {{{
+Plugin 'easymotion/vim-easymotion'
+" }}}
+
+" vim-template Plugin {{{
+Plugin 'aperezdc/vim-template'
+let g:templates_user_variables = [
+        \   ['AUTHOR', 'GetAuthor'],
+        \   ['EMAIL', 'GetEmail'],
+        \ ]
+
+    function! GetAuthor()
+        return 'Peng Liu'
+    endfunction
+    function! GetEmail()
+        return 'liupeng@imscv.com'
+    endfunction
+let g:email='liupeng@imscv.com'
+let g:license='GNU GPL3'
 " }}}
 
 "All of your Plugins must be added before the following line"{{{
@@ -446,12 +526,12 @@ nnoremap <c-c> :let @+ = expand('%:p')<cr>"}}}
 
 " 菜单栏"{{{
 if has("gui_running")
-	set guioptions-=m " 隐藏菜单栏
-	set guioptions-=T " 隐藏工具栏
-	set guioptions-=L " 隐藏左侧滚动条
-	set guioptions-=r " 隐藏右侧滚动条
-	set guioptions-=b " 隐藏底部滚动条
-	set showtabline=0 " Tab栏
+    set guioptions-=m " 隐藏菜单栏
+    set guioptions-=T " 隐藏工具栏
+    set guioptions-=L " 隐藏左侧滚动条
+    set guioptions-=r " 隐藏右侧滚动条
+    set guioptions-=b " 隐藏底部滚动条
+    set showtabline=0 " Tab栏
 endif
 "}}}
 
@@ -464,19 +544,18 @@ endif
 "}}}
 
 "set nobomb"{{{
-
 "origin
 " comment the below line will fix the path error with vim in cmd.
 "set encoding=utf-8 "self-define for display chinese or special charater
 if has('win32')
-	set termencoding=chinese
+    set termencoding=chinese
 endif
 set fileencodings=ucs-bom,utf-8,gbk,cp936,cp950,latin1
 set ambiwidth=double
-set guifont=Source\ Code\ Pro\ 13
+set guifont=Source\ Code\ Pro\ 12
 "console
 if has("win32")
-	language messages zh_cn.utf-8
+    language messages zh_cn.utf-8
 endif
 "}}}
 
@@ -560,29 +639,29 @@ vnoremap <silent> <leader>F y?<c-r>=escape(@", "\\/.*$^~[]")<cr><cr>
 
 " {{{ 回车时前字符为{时自动换行补全
 function! <SID>OpenSpecial(ochar,cchar)
-	let line = getline('.')
-	let col = col('.') - 2
-	if(line[col] != a:ochar)
-		if(col > 0)
-			return "\<esc>a\<CR>"
-		else
-			return "\<CR>"
-		endif
-	endif
-	if(line[col+1] != a:cchar)
-		call setline('.',line[:(col)].a:cchar.line[(col+1):])
-	else
-		call setline('.',line[:(col)].line[(col+1):])
-	endif
-	return "\<esc>a\<CR>;\<CR>".a:cchar."\<esc>\"_xk$\"_xa"
+    let line = getline('.')
+    let col = col('.') - 2
+    if(line[col] != a:ochar)
+        if(col > 0)
+            return "\<esc>a\<CR>"
+        else
+            return "\<CR>"
+        endif
+    endif
+    if(line[col+1] != a:cchar)
+        call setline('.',line[:(col)].a:cchar.line[(col+1):])
+    else
+        call setline('.',line[:(col)].line[(col+1):])
+    endif
+    return "\<esc>a\<CR>;\<CR>".a:cchar."\<esc>\"_xk$\"_xa"
 endfunction
 inoremap <silent> <CR> <C-R>=<SID>OpenSpecial('{','}')<CR>
 " }}}
 
 " {{{ Fast edit hosts file
 function! FlushDNS()
-	python import sys
-	exe 'python sys.argv = ["ipconfig /flushdns"]'
+    python import sys
+    exe 'python sys.argv = ["ipconfig /flushdns"]'
 endfunction
 nmap <silent> <Leader>host :tabnew c:\windows\system32\drivers\etc\hosts<CR>
 nmap <silent> <Leader>dns :!ipconfig /flushdns<CR><space>
@@ -615,28 +694,29 @@ autocmd Filetype python set foldmethod=indent
 " 设定配色方案"{{{
 "syntax enable
 if has('gui_running')
-	set background=dark
+    set background=dark
 else
-	set background=light
+    set background=light
 endif
 "set t_Co=16
 "let g:solarized_termcolors=16
 "colorscheme solarized
 if has('gui_running')
-	colorscheme molokai
+    "colorscheme molokai
+    colorscheme solarized
 else
-	colorscheme elflord
+    colorscheme elflord
 endif
 "colorscheme solarized
 "colorscheme molokai"}}}
 
 " GVIM进入时最大化"{{{
 if(has("win32") || has("win95") || has("win64") || has("win16"))
-	au GUIEnter * simalt ~x
+    au GUIEnter * simalt ~x
 else
-	function! Maximize_Window()
-		silent !wmctrl -r :ACTIVE: -b add,maximized_vert,maximized_horz
-	endfunction
+    function! Maximize_Window()
+        silent !wmctrl -r :ACTIVE: -b add,maximized_vert,maximized_horz
+    endfunction
 endif
 
 if has("gui_running")
@@ -648,4 +728,28 @@ endif
 
 "}}}
 
+" }}}
+
+" Use h and l to wrap line in normal mode {{{
+set whichwrap+=h,l
+" }}}
+
+" Some UI config {{{
+set cursorline
+set showcmd
+set lazyredraw
+nnoremap <leader><space> :nohlsearch<CR>
+" move to beginning/end of line
+nnoremap B ^
+nnoremap E $
+" $/^ doesn't do anything
+nnoremap $ <nop>
+nnoremap ^ <nop>
+" highlight last inserted text
+nnoremap gV `[v`]
+" }}}
+
+" Pyclewn Settings {{{
+let g:pyclewn_terminal = "xterm, -e"
+"let g:pyclewn_python = "python"
 " }}}
