@@ -241,7 +241,7 @@ nmap <leader>f :MRU<cr>
 " {{{ majutsushi/tagbar 代码导航
 Plugin 'majutsushi/tagbar'
 if has("unix")
-    let g:tagbar_ctags_bin = '/usr/bin/ctags'
+    "let g:tagbar_ctags_bin = '/usr/bin/ctags'
 else
     let g:tagbar_ctags_bin = $VIMFILEFLODER.'/ctags.exe'
 endif
@@ -253,9 +253,9 @@ if has('gui_running')
     autocmd VimEnter * nested :TagbarOpen
 endif
 " Tagbar open with supported files.
-autocmd VimEnter * nested :call tagbar#autoopen(1)
+"autocmd VimEnter * nested :call tagbar#autoopen(1)
 " Also open tagbar in a existing vim.
-autocmd BufEnter * nested :call tagbar#autoopen(0)
+"autocmd BufEnter * nested :call tagbar#autoopen(0)
 " }}}
 
 " {{{ CmdlineComplete 命令行模式下自动补全
@@ -413,6 +413,7 @@ autocmd FileType python let g:pymode = 1
 "let g:pymodeLlint_write = 0
 " Disable code completion support, use youcompleteme instead.
 let g:pymode_rope_completion = 0
+nmap <silent> <S-F> :PymodeLintAuto<CR> :PymodeLint<CR>
 " Set key 'R' for run python code
 "let g:pymode_run_key = 'R'
 "let g:pymode_paths = [$HOME.'/anaconda/lib/python2.7/site-packages/']
@@ -515,14 +516,25 @@ filetype plugin indent on    "required
 " Alt-W切换自动换行"{{{
 noremap <a-w> :exe &wrap==1 ? 'set nowrap' : 'set wrap'<cr>
 
-" 复制选中文本到系统剪贴板
-vnoremap <leader>yo "*y
-" 从系统剪贴板粘贴内容
-nnoremap <leader>po "*p
-" 选中模式 Ctrl+c 复制选中的文本
-vnoremap <c-c> "+y
-" 普通模式下 Ctrl+c 复制文件路径
-nnoremap <c-c> :let @+ = expand('%:p')<cr>"}}}
+if has('unix')
+    " 复制选中文本到系统剪贴板
+    vnoremap <leader>yo "+y
+    " 从系统剪贴板粘贴内容
+    nnoremap <leader>po "+p
+    " 选中模式 Ctrl+c 复制选中的文本
+    vnoremap <c-c> "+y
+    " 普通模式下 Ctrl+c 复制文件路径
+    nnoremap <c-c> :let @+ = expand('%:p')<cr>"}}}
+else
+    " 复制选中文本到系统剪贴板
+    vnoremap <leader>yo "*y
+    " 从系统剪贴板粘贴内容
+    nnoremap <leader>po "*p
+    " 选中模式 Ctrl+c 复制选中的文本
+    vnoremap <c-c> "*y
+    " 普通模式下 Ctrl+c 复制文件路径
+    nnoremap <c-c> :let @* = expand('%:p')<cr>"}}}
+endif
 
 " 菜单栏"{{{
 if has("gui_running")
@@ -552,7 +564,7 @@ if has('win32')
 endif
 set fileencodings=ucs-bom,utf-8,gbk,cp936,cp950,latin1
 set ambiwidth=double
-set guifont=Source\ Code\ Pro\ 12
+set guifont=Source\ Code\ Pro\ 9
 "console
 if has("win32")
     language messages zh_cn.utf-8
@@ -583,6 +595,11 @@ inoremap <a-h> <left>
 inoremap <a-l> <right>
 inoremap <a-j> <c-o>gj
 inoremap <a-k> <c-o>gk
+" move cursor in Insert Mode 
+"inoremap <C-h> <C-o>h
+"inoremap <C-j> <C-o>j
+"inoremap <C-k> <C-o>k
+"inoremap <C-l> <C-o>l
 "}}}
 
 "{{{ Folding 折叠
@@ -691,6 +708,10 @@ autocmd Filetype python set foldmethod=indent
 "Bundle 'VimPdb'
 " }}}
 
+" VDebug Plugin {{{
+Plugin 'joonty/vdebug'
+" }}}
+
 " 设定配色方案"{{{
 "syntax enable
 if has('gui_running')
@@ -702,8 +723,8 @@ endif
 "let g:solarized_termcolors=16
 "colorscheme solarized
 if has('gui_running')
-    "colorscheme molokai
-    colorscheme solarized
+    colorscheme molokai
+    "colorscheme solarized
 else
     colorscheme elflord
 endif
@@ -740,8 +761,8 @@ set showcmd
 set lazyredraw
 nnoremap <leader><space> :nohlsearch<CR>
 " move to beginning/end of line
-nnoremap B ^
-nnoremap E $
+noremap B ^
+noremap E $
 " $/^ doesn't do anything
 nnoremap $ <nop>
 nnoremap ^ <nop>
@@ -751,5 +772,6 @@ nnoremap gV `[v`]
 
 " Pyclewn Settings {{{
 let g:pyclewn_terminal = "xterm, -e"
+"let g:pyclewn_terminal = "tmux,split-window"
 "let g:pyclewn_python = "python"
 " }}}
