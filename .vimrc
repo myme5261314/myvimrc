@@ -224,6 +224,8 @@ Plugin 'The-NERD-Commenter'
 "<leader>cA 在当前行尾添加注释符，并进入Insert模式
 "<leader>cu 取消注释
 "<leader>cm 添加块注释
+" 使用多余的空格
+let NERDSpaceDelims=1
 "}}}
 
 " {{{ auto_mkdir 自动创建目录
@@ -238,10 +240,16 @@ let MRU_Add_Menu = 0
 nmap <leader>f :MRU<cr>
 " }}}
 
+" {{{ vim-easytags
+Plugin 'xolox/vim-misc'
+Plugin 'xolox/vim-easytags'
+" }}}
+
 " {{{ majutsushi/tagbar 代码导航
 Plugin 'majutsushi/tagbar'
 if has("unix")
     "let g:tagbar_ctags_bin = '/usr/bin/ctags'
+	let g:tagbar_ctags_bin = '/usr/local/bin/ctags'
 else
     let g:tagbar_ctags_bin = $VIMFILEFLODER.'/ctags.exe'
 endif
@@ -444,6 +452,7 @@ let g:ycm_global_ycm_extra_conf = '~/.vim/bundle/YouCompleteMe/cpp/ycm/.ycm_extr
 let g:ycm_autoclose_preview_window_after_completion = 1
 let g:ycm_add_preview_to_completeopt = 1
 set completeopt-=preview
+nnoremap <leader>jd :YcmCompleter GoToDefinitionElseDeclaration<CR>
 "}}}
 
 " color_coded {{{
@@ -515,7 +524,9 @@ filetype plugin indent on    "required
 
 " Alt-W切换自动换行"{{{
 noremap <a-w> :exe &wrap==1 ? 'set nowrap' : 'set wrap'<cr>
+" }}}
 
+" 复制粘贴 "{{{
 if has('unix')
     " 复制选中文本到系统剪贴板
     vnoremap <leader>yo "+y
@@ -524,7 +535,7 @@ if has('unix')
     " 选中模式 Ctrl+c 复制选中的文本
     vnoremap <c-c> "+y
     " 普通模式下 Ctrl+c 复制文件路径
-    nnoremap <c-c> :let @+ = expand('%:p')<cr>"}}}
+    nnoremap <c-c> :let @+ = expand('%:p')<cr>
 else
     " 复制选中文本到系统剪贴板
     vnoremap <leader>yo "*y
@@ -533,8 +544,9 @@ else
     " 选中模式 Ctrl+c 复制选中的文本
     vnoremap <c-c> "*y
     " 普通模式下 Ctrl+c 复制文件路径
-    nnoremap <c-c> :let @* = expand('%:p')<cr>"}}}
+    nnoremap <c-c> :let @* = expand('%:p')<cr>
 endif
+" }}}
 
 " 菜单栏"{{{
 if has("gui_running")
@@ -723,8 +735,8 @@ endif
 "let g:solarized_termcolors=16
 "colorscheme solarized
 if has('gui_running')
-    colorscheme molokai
-    "colorscheme solarized
+    " colorscheme molokai
+    colorscheme solarized
 else
     colorscheme elflord
 endif
