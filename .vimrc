@@ -89,13 +89,13 @@ set sessionoptions=blank,buffers,curdir,folds,help,options,tabpages,winsize,slas
 "the config about the vimrc
 if has("unix")
     set fileformats=unix,dos,mac
-    nmap <leader>e :tabnew $HOME/.vimrc<cr>
+    nmap <leader>e :e $HOME/.vimrc<cr>
     let $VIMFILESNAME = '.vimrc'
     let $VIMFILEFLODER = $HOME.'/.vim'
     let $VIMFILES = $HOME."/".$VIMFILESNAME
 else
     set fileformats=dos,unix,mac
-    nmap <leader>e :tabnew $HOME/_vimrc<cr>
+    nmap <leader>e :e $HOME/_vimrc<cr>
     let $VIMFILESNAME = '_vimrc'
     let $VIMFILEFLODER = $HOME.'/vimfiles'
     let $VIMFILES = $HOME."/".$VIMFILESNAME
@@ -125,13 +125,7 @@ Plugin 'altercation/vim-colors-solarized'
 
 "Syntax {{{
 Plugin 'xml.vim'
-"Plugin 'Markdown'
 " }}}
-
-"" {{{ asins/template.vim 文件模板
-"Plugin 'asins/template.vim'
-"let g:template_author = "Peng Liu"
-"" }}}
 
 "{{{ tpope/vim-fugitive Git命令集合
 Plugin 'tpope/vim-fugitive'
@@ -207,7 +201,7 @@ let NERDTreeShowFiles=1
 " 是否默认显示行号
 let NERDTreeShowLineNumbers=0
 " 窗口位置（'left' or 'right'）
-let NERDTreeWinPos='left'
+let NERDTreeWinPos='right'
 " 窗口宽度
 let NERDTreeWinSize=31
 nnoremap <Leader>tt :NERDTreeToggle<CR>
@@ -255,11 +249,45 @@ else
 endif
 let g:tagbar_autofocus = 0
 let g:tarbar_width = 30
+let g:tagbar_left = 1
 nmap <leader>tl :TagbarToggle<CR>
 "StartUp with Tagbar
 if has('gui_running')
-    autocmd VimEnter * nested :TagbarOpen
+    " autocmd VimEnter * nested :TagbarOpen
 endif
+" 设置 ctags 对哪些代码元素生成标签
+let g:tagbar_type_cpp = {
+    \ 'kinds' : [
+        \ 'd:macros:1',
+        \ 'g:enums',
+        \ 't:typedefs:0:0',
+        \ 'e:enumerators:0:0',
+        \ 'n:namespaces',
+        \ 'c:classes',
+        \ 's:structs',
+        \ 'u:unions',
+        \ 'f:functions',
+        \ 'm:members:0:0',
+        \ 'v:global:0:0',
+        \ 'x:external:0:0',
+        \ 'l:local:0:0'
+     \ ],
+     \ 'sro'        : '::',
+     \ 'kind2scope' : {
+         \ 'g' : 'enum',
+         \ 'n' : 'namespace',
+         \ 'c' : 'class',
+         \ 's' : 'struct',
+         \ 'u' : 'union'
+     \ },
+     \ 'scope2kind' : {
+         \ 'enum'      : 'g',
+         \ 'namespace' : 'n',
+         \ 'class'     : 'c',
+         \ 'struct'    : 's',
+         \ 'union'     : 'u'
+     \ }
+\ }
 " Tagbar open with supported files.
 "autocmd VimEnter * nested :call tagbar#autoopen(1)
 " Also open tagbar in a existing vim.
@@ -287,9 +315,9 @@ Plugin 'asins/renamer.vim'
 "}}}
 
 " {{{ mikeage/ShowMarks 设置标记（标签）
-Plugin 'mikeage/ShowMarks'
-let showmarks_include = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
-let showmarks_ignore_type = "hqm"
+" Plugin 'mikeage/ShowMarks'
+" let showmarks_include = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+" let showmarks_ignore_type = "hqm"
 " m{mark} 设置标记  '{mark} 移动到标记
 "<Leader>mt   - 打开/关闭ShowMarks插件
 "<Leader>mh   - 清除当前行的标记
@@ -325,21 +353,21 @@ Plugin 'matchit.zip'
 Plugin 'Mark'
 " 这样，当我输入“,hl”时，就会把光标下的单词高亮，在此单词上按“,hh”会清除该单词的高亮。如果在高亮单词外输入“,hh”，会清除所有的高亮。
 " 你也可以使用virsual模式选中一段文本，然后按“,hl”，会高亮你所选中的文本；或者你可以用“,hr”来输入一个正则表达式，这会高亮所有符合这个正则表达式的文本。
-nmap <silent> <leader>hl <plug>MarkSet
-vmap <silent> <leader>hl <plug>MarkSet
-nmap <silent> <leader>hh <plug>MarkClear
-vmap <silent> <leader>hh <plug>MarkClear
-nmap <silent> <leader>hr <plug>MarkRegex
-vmap <silent> <leader>hr <plug>MarkRegex
+" nmap <silent> <leader>hl <plug>MarkSet
+" vmap <silent> <leader>hl <plug>MarkSet
+" nmap <silent> <leader>hh <plug>MarkClear
+" vmap <silent> <leader>hh <plug>MarkClear
+" nmap <silent> <leader>hr <plug>MarkRegex
+" vmap <silent> <leader>hr <plug>MarkRegex
 " 你可以在高亮文本上使用“,#”或“,*”来上下搜索高亮文本。在使用了“,#”或“,*”后，就可以直接输入“#”或“*”来继续查找该高亮文本，直到你又用“#”或“*”查找了其它文本。
 " <silent>* 当前MarkWord的下一个     <silent># 当前MarkWord的上一个
 " <silent>/ 所有MarkWords的下一个    <silent>? 所有MarkWords的上一个
-hi MarkWord1  ctermbg=Cyan     ctermfg=Black  guibg=#8CCBEA    guifg=Black
-hi MarkWord2  ctermbg=Green    ctermfg=Black  guibg=#A4E57E    guifg=Black
-hi MarkWord3  ctermbg=Yellow   ctermfg=Black  guibg=#FFDB72    guifg=Black
-hi MarkWord4  ctermbg=Red      ctermfg=Black  guibg=#FF7272    guifg=Black
-hi MarkWord5  ctermbg=Magenta  ctermfg=Black  guibg=#FFB3FF    guifg=Black
-hi MarkWord6  ctermbg=Blue     ctermfg=Black  guibg=#9999FF    guifg=Black
+" hi MarkWord1  ctermbg=Cyan     ctermfg=Black  guibg=#8CCBEA    guifg=Black
+" hi MarkWord2  ctermbg=Green    ctermfg=Black  guibg=#A4E57E    guifg=Black
+" hi MarkWord3  ctermbg=Yellow   ctermfg=Black  guibg=#FFDB72    guifg=Black
+" hi MarkWord4  ctermbg=Red      ctermfg=Black  guibg=#FF7272    guifg=Black
+" hi MarkWord5  ctermbg=Magenta  ctermfg=Black  guibg=#FFB3FF    guifg=Black
+" hi MarkWord6  ctermbg=Blue     ctermfg=Black  guibg=#9999FF    guifg=Black
 "}}}
 
 " Git Gutter Plugin {{{
@@ -347,19 +375,6 @@ Plugin 'airblade/vim-gitgutter'
 "Plugin 'mhinz/vim-signify'
 "let g:signify_vcs_list = [ 'git', 'hg' ]
 " }}}
-
-"" Syntax checking Plugin {{{
-"Plugin 'scrooloose/syntastic'
-"set statusline+=%#warningmsg#
-"set statusline+=%{SyntasticStatuslineFlag()}
-"set statusline+=%*
-
-"let g:syntastic_always_populate_loc_list = 1
-"let g:syntastic_auto_loc_list = 1
-"let g:syntastic_check_on_open = 1
-"let g:syntastic_check_on_wq = 0
-"let g:syntastic_python_python_exec = '$HOME/anaconda/bin/python'
-"" }}}
 
 " Auto Fix Python PEP8 Errors {{{
 Plugin 'tell-k/vim-autopep8'
@@ -394,10 +409,6 @@ Plugin 'plasticboy/vim-markdown'
 Plugin 'bling/vim-airline'
 " }}}
 
-"" Pydoc {{{
-"Plugin 'fs111/pydoc.vim'
-"" }}}
-
 " Jedi for Python Doc {{{
 Plugin 'davidhalter/jedi-vim'
 let g:jedi#auto_vim_configuration = 0
@@ -427,24 +438,6 @@ nmap <silent> <S-F> :PymodeLintAuto<CR> :PymodeLint<CR>
 "let g:pymode_paths = [$HOME.'/anaconda/lib/python2.7/site-packages/']
 " }}}
 
-
-""snipMate plugin {{{
-""Install dependencies:
-"Plugin 'MarcWeber/vim-addon-mw-utils'
-"Plugin 'tomtom/tlib_vim'
-"Plugin 'honza/vim-snippets'
-" }}}
-
-"" vim-snipmate {{{
-"Plugin 'garbas/vim-snipmate'
-"imap <C-E> <Plug>snipMateNextOrTrigger
-"smap <C-E> <Plug>snipMateNextOrTrigger
-"let g:snips_email = 'myme5261314@gmail.com'
-"let g:snips_author = 'Peng Liu'
-"let g:snips_github = 'https://github.com/myme5261314/'
-""let g:snips_trigger_key = '<C-E>'
-"" }}}
-
 "Plugin You Complete me, code auto complete. {{{
 Plugin 'Valloric/YouCompleteMe'
 let g:ycm_global_ycm_extra_conf = '~/.vim/bundle/YouCompleteMe/cpp/ycm/.ycm_extra_conf.py'
@@ -453,6 +446,29 @@ let g:ycm_autoclose_preview_window_after_completion = 1
 let g:ycm_add_preview_to_completeopt = 1
 set completeopt-=preview
 nnoremap <leader>jd :YcmCompleter GoToDefinitionElseDeclaration<CR>
+" YCM 补全菜单配色
+" 菜单
+highlight Pmenu ctermfg=2 ctermbg=3 guifg=#005f87 guibg=#EEE8D5
+" 选中项
+highlight PmenuSel ctermfg=2 ctermbg=3 guifg=#AFD700 guibg=#106900
+" 补全功能在注释中同样有效
+let g:ycm_complete_in_comments=1
+" 允许 vim 加载 .ycm_extra_conf.py 文件，不再提示
+let g:ycm_confirm_extra_conf=0
+" 开启 YCM 标签补全引擎
+let g:ycm_collect_identifiers_from_tags_files=1
+" 引入 C++ 标准库tags
+set tags+=/data/misc/software/misc./vim/stdcpp.tags
+" YCM 集成 OmniCppComplete 补全引擎，设置其快捷键
+inoremap <leader>; <C-x><C-o>
+" 补全内容不以分割子窗口形式出现，只显示补全列表
+set completeopt-=preview
+" 从第一个键入字符就开始罗列匹配项
+let g:ycm_min_num_of_chars_for_completion=1
+" 禁止缓存匹配项，每次都重新生成匹配项
+let g:ycm_cache_omnifunc=0
+" 语法关键字补全
+let g:ycm_seed_identifiers_with_syntax=1
 "}}}
 
 " color_coded {{{
@@ -504,6 +520,50 @@ let g:templates_user_variables = [
     endfunction
 let g:email='liupeng@imscv.com'
 let g:license='GNU GPL3'
+" }}}
+
+" C++ {{{
+let &path.="../include, src/include,/usr/include/AL,"
+Plugin 'a.vim'
+Plugin 'indexer.tar.gz'
+" 设置插件 indexer 调用 ctags 的参数
+" 默认 --c++-kinds=+p+l，重新设置为 --c++-kinds=+p+l+x+c+d+e+f+g+m+n+s+t+u+v
+" 默认 --fields=+iaS 不满足 YCM 要求，需改为 --fields=+iaSl
+let g:indexer_ctagsCommandLineOptions="--c++-kinds=+p+l+x+c+d+e+f+g+m+n+s+t+u+v --fields=+iaSl --extra=+q"
+" Dependencies of the indexer.tar.gz Plugin.
+Plugin 'DfrankUtil'
+Plugin 'vimprj'
+
+Plugin 'Mizuchi/STL-Syntax'
+
+Plugin 'derekwyatt/vim-protodef'
+" Dependencies of vim-protodef Plugin.
+Plugin 'derekwyatt/vim-fswitch'
+
+Plugin 'nathanaelkane/vim-indent-guides'
+" 随 vim 自启动
+let g:indent_guides_enable_on_vim_startup=1
+" 从第二层开始可视化显示缩进
+let g:indent_guides_start_level=2
+" 色块宽度
+let g:indent_guides_guide_size=1
+" 快捷键 i 开/关缩进可视化
+:nmap <silent> <Leader>i <Plug>IndentGuidesToggle
+
+Plugin 'dyng/ctrlsf.vim'
+let g:ctrlsf_position = 'bottom'
+let g:ctrlsf_winsize = '30%'
+" 使用 ctrlsf.vim 插件在工程内全局查找光标所在关键字，设置快捷键。快捷键速记法：search in project
+" nnoremap <Leader>sp :CtrlSF<CR>
+" vnoremap <Leader>sp <Plugin>CtrlSFVwordExec<CR>
+" nnoremap <Leader>swp <Plugin>CtrlSFCwordExec<CR>
+nnoremap     <Leader>sp :CtrlSF<CR>
+" vmap     <Leader>f <Plug>CtrlSFVwordPath
+vnoremap     <Leader>sp <Plug>CtrlSFVwordExec
+nnoremap     <Leader>swp <Plug>CtrlSFCwordPath
+" nmap     <Leader>p <Plug>CtrlSFPwordPath
+Plugin 'terryma/vim-multiple-cursors'
+Plugin 'kshenoy/vim-signature'
 " }}}
 
 "All of your Plugins must be added before the following line"{{{
@@ -607,7 +667,7 @@ inoremap <a-h> <left>
 inoremap <a-l> <right>
 inoremap <a-j> <c-o>gj
 inoremap <a-k> <c-o>gk
-" move cursor in Insert Mode 
+" move cursor in Insert Mode
 "inoremap <C-h> <C-o>h
 "inoremap <C-j> <C-o>j
 "inoremap <C-k> <C-o>k
@@ -658,7 +718,7 @@ autocmd BufRead,BufNewFile jquery.*.js setlocal ft=javascript syntax=jquery
 autocmd BufRead,BufNewFile *.json setlocal ft=json
 autocmd BufRead,BufNewFile *.twig set syntax=twig
 autocmd FileType python set tabstop=4 shiftwidth=4 expandtab
-autocmd FileType python set tabstop=4 shiftwidth=4 expandtab
+autocmd FileType cpp set tabstop=4 shiftwidth=4 expandtab foldmethod=syntax nofoldenable
 " }}}
 
 " {{{全文搜索选中的文字
@@ -710,14 +770,8 @@ filetype plugin on
 filetype plugin indent on
 
 " {{{ Some Configuration in order to get vim to Python IDE
-
-" Doxygen
-"Bundle 'doxygen-support.vim'
-
 " Python Folding
 autocmd Filetype python set foldmethod=indent
-" Python Debugging
-"Bundle 'VimPdb'
 " }}}
 
 " VDebug Plugin {{{
@@ -731,8 +785,6 @@ if has('gui_running')
 else
     set background=light
 endif
-"set t_Co=16
-"let g:solarized_termcolors=16
 "colorscheme solarized
 if has('gui_running')
     " colorscheme molokai
@@ -740,7 +792,6 @@ if has('gui_running')
 else
     colorscheme elflord
 endif
-"colorscheme solarized
 "colorscheme molokai"}}}
 
 " GVIM进入时最大化"{{{
