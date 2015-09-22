@@ -41,6 +41,10 @@ set shiftwidth=4
 set smarttab
 "Set cmdline-history
 set history=1024
+" 开启保存 undo 历史功能
+set undofile
+" undo 历史保存路径
+set undodir=~/.undo_history/
 
 set nocursorline
 
@@ -243,7 +247,7 @@ Plugin 'xolox/vim-easytags'
 Plugin 'majutsushi/tagbar'
 if has("unix")
     "let g:tagbar_ctags_bin = '/usr/bin/ctags'
-	let g:tagbar_ctags_bin = '/usr/local/bin/ctags'
+    let g:tagbar_ctags_bin = '/usr/local/bin/ctags'
 else
     let g:tagbar_ctags_bin = $VIMFILEFLODER.'/ctags.exe'
 endif
@@ -257,37 +261,36 @@ if has('gui_running')
 endif
 " 设置 ctags 对哪些代码元素生成标签
 let g:tagbar_type_cpp = {
-    \ 'kinds' : [
-        \ 'd:macros:1',
-        \ 'g:enums',
-        \ 't:typedefs:0:0',
-        \ 'e:enumerators:0:0',
-        \ 'n:namespaces',
-        \ 'c:classes',
-        \ 's:structs',
-        \ 'u:unions',
-        \ 'f:functions',
-        \ 'm:members:0:0',
-        \ 'v:global:0:0',
-        \ 'x:external:0:0',
-        \ 'l:local:0:0'
-     \ ],
-     \ 'sro'        : '::',
-     \ 'kind2scope' : {
-         \ 'g' : 'enum',
-         \ 'n' : 'namespace',
-         \ 'c' : 'class',
-         \ 's' : 'struct',
-         \ 'u' : 'union'
-     \ },
-     \ 'scope2kind' : {
-         \ 'enum'      : 'g',
-         \ 'namespace' : 'n',
-         \ 'class'     : 'c',
-         \ 'struct'    : 's',
-         \ 'union'     : 'u'
-     \ }
-\ }
+            \ 'kinds' : [
+            \ 'd:macros:1',
+            \ 'g:enums',
+            \ 't:typedefs:0:0',
+            \ 'e:enumerators:0:0',
+            \ 'n:namespaces',
+            \ 'c:classes',
+            \ 's:structs',
+            \ 'u:unions',
+            \ 'f:functions',
+            \ 'm:members:0:0',
+            \ 'v:global:0:0',
+            \ 'x:external:0:0'
+            \ ],
+            \ 'sro'        : '::',
+            \ 'kind2scope' : {
+            \ 'g' : 'enum',
+            \ 'n' : 'namespace',
+            \ 'c' : 'class',
+            \ 's' : 'struct',
+            \ 'u' : 'union'
+            \ },
+            \ 'scope2kind' : {
+            \ 'enum'      : 'g',
+            \ 'namespace' : 'n',
+            \ 'class'     : 'c',
+            \ 'struct'    : 's',
+            \ 'union'     : 'u'
+            \ }
+            \ }
 " Tagbar open with supported files.
 "autocmd VimEnter * nested :call tagbar#autoopen(1)
 " Also open tagbar in a existing vim.
@@ -330,10 +333,10 @@ Plugin 'ctrlp.vim'
 "set wildignore+=tmp,*.so,*.swp,*.zip  " MacOSX/Linux
 set wildignore+=tmp\*,*.swp,*.zip,*.exe   " Windows
 let g:ctrlp_custom_ignore = {
-  \ 'dir':  '\.git$\|\.hg$\|\.svn$',
-  \ 'file': '\.exe$\|\.so$\|\.dll$',
-  \ 'link': 'some_bad_symbolic_links',
-  \ }
+            \ 'dir':  '\.git$\|\.hg$\|\.svn$',
+            \ 'file': '\.exe$\|\.so$\|\.dll$',
+            \ 'link': 'some_bad_symbolic_links',
+            \ }
 let g:ctrlp_working_path_mode=1
 "let g:ctrlp_clear_cache_on_exit=0
 let g:ctrlp_cache_dir=$VIMFILEFLODER.'/_ctrlp'
@@ -398,6 +401,7 @@ Plugin 'JamshedVesuna/vim-markdown-preview'
 let vim_markdown_preview_browser='Google Chrome'
 "let vim_markdown_preview_temp_file=1
 let vim_markdown_preview_toggle=2
+Plugin 'suan/vim-instant-markdown'
 " }}}
 
 " Markdown Syntax Plugin {{{
@@ -444,7 +448,6 @@ let g:ycm_global_ycm_extra_conf = '~/.vim/bundle/YouCompleteMe/cpp/ycm/.ycm_extr
 "let g:ycm_global_ycm_extra_conf = '~/.vim/.ycm_extra_conf.py'
 let g:ycm_autoclose_preview_window_after_completion = 1
 let g:ycm_add_preview_to_completeopt = 1
-set completeopt-=preview
 nnoremap <leader>jd :YcmCompleter GoToDefinitionElseDeclaration<CR>
 " YCM 补全菜单配色
 " 菜单
@@ -469,6 +472,8 @@ let g:ycm_min_num_of_chars_for_completion=1
 let g:ycm_cache_omnifunc=0
 " 语法关键字补全
 let g:ycm_seed_identifiers_with_syntax=1
+let g:syntastic_error_symbol = '✗'
+let g:syntastic_warning_symbol = '⚠'
 "}}}
 
 " color_coded {{{
@@ -508,16 +513,16 @@ Plugin 'easymotion/vim-easymotion'
 " vim-template Plugin {{{
 Plugin 'aperezdc/vim-template'
 let g:templates_user_variables = [
-        \   ['AUTHOR', 'GetAuthor'],
-        \   ['EMAIL', 'GetEmail'],
-        \ ]
+            \   ['AUTHOR', 'GetAuthor'],
+            \   ['EMAIL', 'GetEmail'],
+            \ ]
 
-    function! GetAuthor()
-        return 'Peng Liu'
-    endfunction
-    function! GetEmail()
-        return 'liupeng@imscv.com'
-    endfunction
+function! GetAuthor()
+    return 'Peng Liu'
+endfunction
+function! GetEmail()
+    return 'liupeng@imscv.com'
+endfunction
 let g:email='liupeng@imscv.com'
 let g:license='GNU GPL3'
 " }}}
@@ -536,19 +541,22 @@ Plugin 'vimprj'
 
 Plugin 'Mizuchi/STL-Syntax'
 
+" Indent Line
+Plugin 'Yggdroot/indentLine'
+" let g:indentLine_char='︙'
+" let g:indentLine_char='┆'
+let g:indentLine_char='¦'
+" Vim
+let g:indentLine_color_term = 239
+"GVim
+let g:indentLine_color_gui = '#A4E57E'
+" none X terminal
+let g:indentLine_color_tty_light = 7 " (default: 4)
+let g:indentLine_color_dark = 1 " (default: 2)
+
 Plugin 'derekwyatt/vim-protodef'
 " Dependencies of vim-protodef Plugin.
 Plugin 'derekwyatt/vim-fswitch'
-
-Plugin 'nathanaelkane/vim-indent-guides'
-" 随 vim 自启动
-let g:indent_guides_enable_on_vim_startup=1
-" 从第二层开始可视化显示缩进
-let g:indent_guides_start_level=2
-" 色块宽度
-let g:indent_guides_guide_size=1
-" 快捷键 i 开/关缩进可视化
-:nmap <silent> <Leader>i <Plug>IndentGuidesToggle
 
 Plugin 'dyng/ctrlsf.vim'
 let g:ctrlsf_position = 'bottom'
@@ -564,7 +572,20 @@ nnoremap     <Leader>swp <Plug>CtrlSFCwordPath
 " nmap     <Leader>p <Plug>CtrlSFPwordPath
 Plugin 'terryma/vim-multiple-cursors'
 Plugin 'kshenoy/vim-signature'
-" }}}
+
+" Plugin 'gcmt/wildfire.vim'
+" " This selects the next closest text object.
+" map <SPACE> <Plug>(wildfire-fuel)
+" " This selects the previous closest text object.
+" vmap <C-SPACE> <Plug>(wildfire-water)
+" let g:wildfire_objects = ["i'", 'i"', "i)", "i]", "i}", "ip", "it"]
+
+" Plugin 'Chiel92/vim-autoformat'
+" " au BufWrite * :Autoformat
+" noremap <F3> :Autoformat<CR>
+" let g:formatdef_clangformat_objc = '"clang-format -style=file"'
+" let g:autoformat_verbosemode = 1
+"}}}
 
 "All of your Plugins must be added before the following line"{{{
 call vundle#end()            "required
@@ -621,9 +642,9 @@ endif
 
 " Alt-Space is System menu"{{{
 if has("gui")
-  noremap <m-space> :simalt ~<cr>
-  inoremap <m-space> <c-o>:simalt ~<cr>
-  cnoremap <m-space> <c-c>:simalt ~<cr>
+    noremap <m-space> :simalt ~<cr>
+    inoremap <m-space> <c-o>:simalt ~<cr>
+    cnoremap <m-space> <c-c>:simalt ~<cr>
 endif
 "}}}
 
@@ -708,6 +729,7 @@ autocmd! bufwritepost $VIMFILESNAME silent source $VIMFILES
 
 " Several File Types {{{
 autocmd Filetype vim noremap <buffer> <F1> <Esc>:help <C-r><C-w><CR>
+autocmd FileType vim set foldmethod=marker
 autocmd FileType html,xhtml setlocal smartindent foldmethod=indent
 autocmd FileType css setlocal smartindent foldmethod=indent
 autocmd FileType css setlocal noexpandtab tabstop=2 shiftwidth=2
@@ -718,7 +740,7 @@ autocmd BufRead,BufNewFile jquery.*.js setlocal ft=javascript syntax=jquery
 autocmd BufRead,BufNewFile *.json setlocal ft=json
 autocmd BufRead,BufNewFile *.twig set syntax=twig
 autocmd FileType python set tabstop=4 shiftwidth=4 expandtab
-autocmd FileType cpp set tabstop=4 shiftwidth=4 expandtab foldmethod=syntax nofoldenable
+autocmd FileType cpp set tabstop=4 shiftwidth=4 expandtab foldmethod=syntax nofoldenable cc=80
 " }}}
 
 " {{{全文搜索选中的文字
@@ -757,6 +779,10 @@ nmap <silent> <Leader>dns :!ipconfig /flushdns<CR><space>
 "autocmd! bufwritepost hosts call FlushDNS()
 " }}}
 
+" {{{ Close Window
+nnoremap <C-W> :close<CR>
+" }}}
+
 " {{{ self-define configuration
 
 
@@ -780,16 +806,19 @@ Plugin 'joonty/vdebug'
 
 " 设定配色方案"{{{
 "syntax enable
+set background=dark
 if has('gui_running')
     set background=dark
 else
-    set background=light
+    " set background=light
 endif
-"colorscheme solarized
+colorscheme solarized
 if has('gui_running')
     " colorscheme molokai
-    colorscheme solarized
+    " colorscheme solarized
+    set background=dark
 else
+    " set background=light
     colorscheme elflord
 endif
 "colorscheme molokai"}}}
@@ -804,9 +833,9 @@ else
 endif
 
 if has("gui_running")
-  " GUI is running or is about to start.
-  " Maximize gvim window.
-  set lines=999 columns=999
+    " GUI is running or is about to start.
+    " Maximize gvim window.
+    set lines=999 columns=999
 endif
 
 
@@ -835,6 +864,7 @@ nnoremap gV `[v`]
 
 " Pyclewn Settings {{{
 let g:pyclewn_terminal = "xterm, -e"
+let pyclewn_args="--window=left"
 "let g:pyclewn_terminal = "tmux,split-window"
 "let g:pyclewn_python = "python"
 " }}}
