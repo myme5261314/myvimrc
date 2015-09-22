@@ -574,17 +574,17 @@ Plugin 'terryma/vim-multiple-cursors'
 Plugin 'kshenoy/vim-signature'
 
 " Plugin 'gcmt/wildfire.vim'
-" " This selects the next closest text object.
-" map <SPACE> <Plug>(wildfire-fuel)
-" " This selects the previous closest text object.
-" vmap <C-SPACE> <Plug>(wildfire-water)
-" let g:wildfire_objects = ["i'", 'i"', "i)", "i]", "i}", "ip", "it"]
+" This selects the next closest text object.
+map <SPACE> <Plug>(wildfire-fuel)
+" This selects the previous closest text object.
+vmap <C-SPACE> <Plug>(wildfire-water)
+let g:wildfire_objects = ["i'", 'i"', "i)", "i]", "i}", "ip", "it"]
 
 " Plugin 'Chiel92/vim-autoformat'
-" " au BufWrite * :Autoformat
-" noremap <F3> :Autoformat<CR>
-" let g:formatdef_clangformat_objc = '"clang-format -style=file"'
-" let g:autoformat_verbosemode = 1
+" au BufWrite * :Autoformat
+noremap <F3> :Autoformat<CR>
+let g:formatdef_clangformat_objc = '"clang-format -style=file"'
+let g:autoformat_verbosemode = 1
 "}}}
 
 "All of your Plugins must be added before the following line"{{{
