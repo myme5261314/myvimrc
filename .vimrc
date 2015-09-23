@@ -122,9 +122,10 @@ let g:bundle_dir = $VIMFILEFLODER.'/bundle'
 Plugin 'gmarik/Vundle.vim'
 " }}}
 
-"Color {{{
-Plugin 'molokai'
-Plugin 'altercation/vim-colors-solarized'
+" {{{ Color Scheme Theme Plugin
+" Plugin 'molokai'
+" Plugin 'altercation/vim-colors-solarized'
+Plugin 'flazz/vim-colorschemes'
 " }}}
 
 "Syntax {{{
@@ -151,13 +152,12 @@ Plugin 'yangzetian/RST-Tables'
 
 " {{{ MiniBufExpl
 Plugin 'fholgado/minibufexpl.vim'
-let g:miniBufExplMapWindowNavVim = 1
-let g:miniBufExplMapWindowNavArrows = 1
-let g:miniBufExplMapCTabSwitchBufs = 1
-let g:miniBufExplModSelTarget = 1
-let g:miniBufExplorerMoreThanOne=1
-let g:miniBufExplBuffersNeeded = 1
-
+" let g:miniBufExplMapWindowNavVim = 1
+" let g:miniBufExplMapWindowNavArrows = 1
+" let g:miniBufExplMapCTabSwitchBufs = 1
+" let g:miniBufExplModSelTarget = 1
+" let g:miniBufExplorerMoreThanOne=1
+" let g:miniBufExplBuffersNeeded = 1
 " }}}
 
 " {{{ bufexplorer.vim Buffers切换
@@ -188,7 +188,6 @@ nnoremap <F5> :GundoToggle<CR>
 Plugin 'scrooloose/nerdtree'
 Plugin 'Xuyuanp/nerdtree-git-plugin'
 Plugin 'jistr/vim-nerdtree-tabs'
-map <Leader>n <plug>NERDTreeTabsToggle<CR>
 let g:nerdtree_tabs_smart_startup_focus=1
 " 让Tree把自己给装饰得多姿多彩漂亮点
 let NERDChristmasTree=1
@@ -397,10 +396,10 @@ let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 " }}}
 
 " Markdown Preview Plugin {{{
-Plugin 'JamshedVesuna/vim-markdown-preview'
-let vim_markdown_preview_browser='Google Chrome'
-"let vim_markdown_preview_temp_file=1
-let vim_markdown_preview_toggle=2
+" Plugin 'JamshedVesuna/vim-markdown-preview'
+" let vim_markdown_preview_browser='Google Chrome'
+" "let vim_markdown_preview_temp_file=1
+" let vim_markdown_preview_toggle=2
 Plugin 'suan/vim-instant-markdown'
 " }}}
 
@@ -411,6 +410,9 @@ Plugin 'plasticboy/vim-markdown'
 
 " Status Bar Plugin {{{
 Plugin 'bling/vim-airline'
+" let g:airline#extensions#tabline#enabled = 1
+" let g:airline#extensions#tabline#left_sep = ' '
+" let g:airline#extensions#tabline#left_alt_sep = '>'
 " }}}
 
 " Jedi for Python Doc {{{
@@ -525,6 +527,7 @@ function! GetEmail()
 endfunction
 let g:email='liupeng@imscv.com'
 let g:license='GNU GPL3'
+" let g:templates_debug = 1
 " }}}
 
 " C++ {{{
@@ -568,7 +571,7 @@ let g:ctrlsf_winsize = '30%'
 nnoremap     <Leader>sp :CtrlSF<CR>
 " vmap     <Leader>f <Plug>CtrlSFVwordPath
 vnoremap     <Leader>sp <Plug>CtrlSFVwordExec
-nnoremap     <Leader>swp <Plug>CtrlSFCwordPath
+nnoremap <Leader>swi <Plug>CtrlSFPrompt
 " nmap     <Leader>p <Plug>CtrlSFPwordPath
 Plugin 'terryma/vim-multiple-cursors'
 Plugin 'kshenoy/vim-signature'
@@ -589,13 +592,6 @@ let g:autoformat_verbosemode = 1
 
 " {{{ Session Plugin
 Plugin 'tpope/vim-obsession'
-" }}}
-
-" {{{ Project Plugin
-Plugin 'tqmz/project.tar.gz'
-" init project environment variables
-let g:proj_path=expand("`pwd`")
-let g:proj_file=expand(g:proj_path.".vimproject")
 " }}}
 
 "All of your Plugins must be added before the following line"{{{
@@ -668,7 +664,7 @@ if has('win32')
 endif
 set fileencodings=ucs-bom,utf-8,gbk,cp936,cp950,latin1
 set ambiwidth=double
-set guifont=Source\ Code\ Pro\ 9
+set guifont=Source\ Code\ Pro\ 10
 "console
 if has("win32")
     language messages zh_cn.utf-8
