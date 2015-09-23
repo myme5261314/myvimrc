@@ -811,10 +811,6 @@ filetype plugin indent on
 autocmd Filetype python set foldmethod=indent
 " }}}
 
-" VDebug Plugin {{{
-Plugin 'joonty/vdebug'
-" }}}
-
 " 设定配色方案"{{{
 "syntax enable
 set background=dark
