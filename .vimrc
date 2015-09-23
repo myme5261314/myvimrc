@@ -587,6 +587,17 @@ let g:formatdef_clangformat_objc = '"clang-format -style=file"'
 let g:autoformat_verbosemode = 1
 "}}}
 
+" {{{ Session Plugin
+Plugin 'tpope/vim-obsession'
+" }}}
+
+" {{{ Project Plugin
+Plugin 'tqmz/project.tar.gz'
+" init project environment variables
+let g:proj_path=expand("`pwd`")
+let g:proj_file=expand(g:proj_path.".vimproject")
+" }}}
+
 "All of your Plugins must be added before the following line"{{{
 call vundle#end()            "required
 filetype plugin indent on    "required
