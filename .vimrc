@@ -379,8 +379,8 @@ Plugin 'airblade/vim-gitgutter'
 " }}}
 
 " Auto Fix Python PEP8 Errors {{{
-Plugin 'tell-k/vim-autopep8'
-let g:autopep8_disable_show_diff=1
+" Plugin 'tell-k/vim-autopep8'
+" let g:autopep8_disable_show_diff=1
 " }}}
 
 " UltiSnips {{{
@@ -431,6 +431,17 @@ let g:jedi#usages_command = "<leader>pu"
 let g:jedi#rename_command = "<leader>pr"
 " }}}
 
+" {{{ DoxygenToolkit Plugin
+Plugin 'DoxygenToolkit.vim'
+let g:DoxygenToolkit_briefTag_pre="@brief  "
+let g:DoxygenToolkit_paramTag_pre="@param "
+let g:DoxygenToolkit_returnTag="@return   "
+let g:DoxygenToolkit_blockHeader="--------------------------------------------------------------------------"
+let g:DoxygenToolkit_blockFooter="--------------------------------------------------------------------------"
+let g:DoxygenToolkit_authorName="Peng Liu"
+let g:DoxygenToolkit_licenseTag="GPL v3"
+" }}}
+
 " Python Mode {{{
 Plugin 'klen/python-mode'
 autocmd FileType python let g:pymode = 1
@@ -446,6 +457,7 @@ nmap <silent> <S-F> :PymodeLintAuto<CR> :PymodeLint<CR>
 
 "Plugin You Complete me, code auto complete. {{{
 Plugin 'Valloric/YouCompleteMe'
+let g:ycm_server_keep_logfiles = 1
 let g:ycm_global_ycm_extra_conf = '~/.vim/bundle/YouCompleteMe/cpp/ycm/.ycm_extra_conf.py'
 "let g:ycm_global_ycm_extra_conf = '~/.vim/.ycm_extra_conf.py'
 let g:ycm_autoclose_preview_window_after_completion = 1
@@ -476,7 +488,17 @@ let g:ycm_cache_omnifunc=0
 let g:ycm_seed_identifiers_with_syntax=1
 let g:syntastic_error_symbol = '✗'
 let g:syntastic_warning_symbol = '⚠'
+let g:ycm_server_log_level = 'debug'
+let g:syntastic_cpp_compiler = 'clang++'
+let g:syntastic_cpp_compiler_options = ' -std=c++11 -stdlib=libc++'
 "}}}
+
+" ListToggle Plugin {{{
+Plugin 'Valloric/ListToggle'
+let g:lt_location_list_toggle_map = '<leader>l'
+let g:lt_quickfix_list_toggle_map = '<leader>q'
+let g:lt_height = 10
+" }}}
 
 " color_coded {{{
 Plugin 'jeaye/color_coded'
@@ -565,25 +587,30 @@ Plugin 'dyng/ctrlsf.vim'
 let g:ctrlsf_position = 'bottom'
 let g:ctrlsf_winsize = '30%'
 " 使用 ctrlsf.vim 插件在工程内全局查找光标所在关键字，设置快捷键。快捷键速记法：search in project
-" nnoremap <Leader>sp :CtrlSF<CR>
-" vnoremap <Leader>sp <Plugin>CtrlSFVwordExec<CR>
-" nnoremap <Leader>swp <Plugin>CtrlSFCwordExec<CR>
 nnoremap     <Leader>sp :CtrlSF<CR>
 " vmap     <Leader>f <Plug>CtrlSFVwordPath
-vnoremap     <Leader>sp <Plug>CtrlSFVwordExec
-nnoremap <Leader>swi <Plug>CtrlSFPrompt
+" vnoremap     <Leader>sp <Plug>CtrlSFVwordExec
+" nnoremap <Leader>sw <Plug>CtrlSFPrompt
 " nmap     <Leader>p <Plug>CtrlSFPwordPath
+nmap     <C-F>f <Plug>CtrlSFPrompt
+vmap     <C-F>f <Plug>CtrlSFVwordPath
+vmap     <C-F>F <Plug>CtrlSFVwordExec
+nmap     <C-F>n <Plug>CtrlSFCwordPath
+nmap     <C-F>p <Plug>CtrlSFPwordPath
+nnoremap <C-F>o :CtrlSFOpen<CR>
+nnoremap <C-F>t :CtrlSFToggle<CR>
+inoremap <C-F>t <Esc>:CtrlSFToggle<CR>
 Plugin 'terryma/vim-multiple-cursors'
 Plugin 'kshenoy/vim-signature'
 
-" Plugin 'gcmt/wildfire.vim'
+Plugin 'gcmt/wildfire.vim'
 " This selects the next closest text object.
 map <SPACE> <Plug>(wildfire-fuel)
 " This selects the previous closest text object.
 vmap <C-SPACE> <Plug>(wildfire-water)
 let g:wildfire_objects = ["i'", 'i"', "i)", "i]", "i}", "ip", "it"]
 
-" Plugin 'Chiel92/vim-autoformat'
+Plugin 'Chiel92/vim-autoformat'
 " au BufWrite * :Autoformat
 noremap <F3> :Autoformat<CR>
 let g:formatdef_clangformat_objc = '"clang-format -style=file"'
