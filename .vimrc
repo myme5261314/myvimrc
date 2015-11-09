@@ -115,7 +115,12 @@ set helplang=cn
 set nocompatible
 filetype off
 set rtp+=$VIMFILEFLODER/bundle/Vundle.vim
-call vundle#begin()
+if has("unix")
+    call vundle#begin()
+elseif has("win32")
+    call vundle#begin($VIMFILEFLODER.'/bundle')
+endif
+
 let g:bundle_dir = $VIMFILEFLODER.'/bundle'
 "let Vundle manage Vundle {{{
 "required!
@@ -245,8 +250,9 @@ Plugin 'xolox/vim-easytags'
 " {{{ majutsushi/tagbar 代码导航
 Plugin 'majutsushi/tagbar'
 if has("unix")
+	let g:tagbar_ctags_bin = 'ctags'
     "let g:tagbar_ctags_bin = '/usr/bin/ctags'
-    let g:tagbar_ctags_bin = '/usr/local/bin/ctags'
+    " let g:tagbar_ctags_bin = '/usr/local/bin/ctags'
 else
     let g:tagbar_ctags_bin = $VIMFILEFLODER.'/ctags.exe'
 endif
@@ -462,7 +468,9 @@ let g:ycm_global_ycm_extra_conf = '~/.vim/bundle/YouCompleteMe/cpp/ycm/.ycm_extr
 "let g:ycm_global_ycm_extra_conf = '~/.vim/.ycm_extra_conf.py'
 let g:ycm_autoclose_preview_window_after_completion = 1
 let g:ycm_add_preview_to_completeopt = 1
-nnoremap <leader>jd :YcmCompleter GoToDefinitionElseDeclaration<CR>
+" nnoremap <leader>jd :YcmCompleter GoToDeclaration<CR>
+" nnoremap <leader>ji :YcmCompleter GoToDefinition<CR>
+nnoremap <leader>jt :YcmCompleter GoTo<CR>
 " YCM 补全菜单配色
 " 菜单
 highlight Pmenu ctermfg=2 ctermbg=3 guifg=#005f87 guibg=#EEE8D5
@@ -549,11 +557,12 @@ function! GetEmail()
 endfunction
 let g:email='liupeng@imscv.com'
 let g:license='GNU GPL3'
+let g:username='Peng Liu'
 " let g:templates_debug = 1
 " }}}
 
 " C++ {{{
-let &path.="../include, src/include,/usr/include/AL,"
+let &path.="./, ../include, src/include, /usr/include/AL, ../src"
 Plugin 'a.vim'
 Plugin 'indexer.tar.gz'
 " 设置插件 indexer 调用 ctags 的参数
@@ -579,9 +588,9 @@ let g:indentLine_color_gui = '#A4E57E'
 let g:indentLine_color_tty_light = 7 " (default: 4)
 let g:indentLine_color_dark = 1 " (default: 2)
 
-Plugin 'derekwyatt/vim-protodef'
 " Dependencies of vim-protodef Plugin.
 Plugin 'derekwyatt/vim-fswitch'
+Plugin 'derekwyatt/vim-protodef'
 
 Plugin 'dyng/ctrlsf.vim'
 let g:ctrlsf_position = 'bottom'
