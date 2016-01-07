@@ -402,10 +402,6 @@ let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 " }}}
 
 " Markdown Preview Plugin {{{
-" Plugin 'JamshedVesuna/vim-markdown-preview'
-" let vim_markdown_preview_browser='Google Chrome'
-" "let vim_markdown_preview_temp_file=1
-" let vim_markdown_preview_toggle=2
 Plugin 'suan/vim-instant-markdown'
 " }}}
 
@@ -471,6 +467,7 @@ let g:ycm_add_preview_to_completeopt = 1
 " nnoremap <leader>jd :YcmCompleter GoToDeclaration<CR>
 " nnoremap <leader>ji :YcmCompleter GoToDefinition<CR>
 nnoremap <leader>jt :YcmCompleter GoTo<CR>
+nnoremap <leader>fi :YcmCompleter FixIt<CR>
 " YCM 补全菜单配色
 " 菜单
 highlight Pmenu ctermfg=2 ctermbg=3 guifg=#005f87 guibg=#EEE8D5
