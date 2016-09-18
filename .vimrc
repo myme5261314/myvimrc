@@ -551,9 +551,9 @@ function! GetAuthor()
     return 'Peng Liu'
 endfunction
 function! GetEmail()
-    return 'liupeng@imscv.com'
+    return 'myme5261314@gmail.com'
 endfunction
-let g:email='liupeng@imscv.com'
+let g:email='myme5261314@gmail.com'
 let g:license='GNU GPL3'
 let g:username='Peng Liu'
 " let g:templates_debug = 1
